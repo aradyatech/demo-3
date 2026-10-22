@@ -183,3 +183,40 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        int n = nums.size();
+        int s = nums[0];
+
+        bool ascending = true;
+        bool descending = true;
+
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != (s + i) % n)
+                ascending = false;
+
+            if (nums[i] != (s - i + n) % n)
+                descending = false;
+        }
+
+        int ans = INT_MAX;
+
+        if (ascending) {
+            int left = (n - s) % n;
+
+            ans = min(ans, left);
+            ans = min(ans, s + 2);
+        }
+
+        if (descending) {
+            int k = (s + 1) % n;
+
+            ans = min(ans, k + 1);
+            ans = min(ans, 1 + (n - k) % n);
+        }
+
+        return ans == INT_MAX ? -1 : ans;
+    }
+};
